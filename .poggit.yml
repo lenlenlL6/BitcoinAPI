@@ -4,5 +4,6 @@ branches:
 - main
 projects:
   BitcoinAPI:
-    path: "20211031_195026"
+    path: ""
+    icon: 20211031_195026.jpg
 ...
