@@ -5,5 +5,5 @@ A new plugin like EconomyAPI but with a different mode
 ```
 $this->bitcoin = $this->getServer()->getPluginManager()->getPlugin("BitcoinAPI");
 
-$this->butcoin->addBitcoin($player, "200"); //You can't use float in amount
+$this->bitcoin->addBitcoin($player, "200"); //You can't use float in amount
 ```
