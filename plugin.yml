@@ -1,0 +1,19 @@
+name: BitcoinAPI
+main: bitcoinapi\Bitcoin
+author: pmmdst
+api: 3.0.0
+version: 0.0.1
+
+commands:
+ mybitcoin:
+  description: Show Your Bitcoin
+  permission: mybitcoin.pmmdst
+  default: true
+ setbitcoin:
+  description: Set Player Bitcoin
+  permission: setbitcoin.pmmdst
+  default: op
+ topbitcoin:
+  description: Top Bitcoin Of The Server
+  permission: topbitcoin.pmmdst
+  default: true
