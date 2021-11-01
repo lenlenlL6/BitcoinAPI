@@ -17,6 +17,11 @@ $this->bitcoin->reduceBitcoin($player, "200"); //Like Add Bitcoin you can't use 
 $this->bitcoin = $this->getServer()->getPluginManager()->getPlugin("BitcoinAPI");
 $this->bitcoin->getAllBitcoin(); //You can make top bitcoin with this
 ```
+- Get Player Bitcoin
+```
+$this->bitcoin = $this->getServer()->getPluginManager()->getPlugin("BitcoinAPI");
+$this->bitcoin->getBitcoin($sender);
+```
 - Make New Top Bitcoin
 ```
 $this->bitcoin = $this->getServer()->getPluginManager()->getPlugin("BitcoinAPI");
@@ -28,3 +33,4 @@ foreach($allbitcoin as $name => $count){ //Loop get all name and count elements 
 $sender->sendMessage("Top " . $top . " name is " . $name . " have " . $count . " bitcoin);
 $top++;
 }
+```
