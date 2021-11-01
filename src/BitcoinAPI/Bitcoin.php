@@ -1,7 +1,11 @@
 <?php
-/*
-Hi I am a plugin developer. The plugin is still in beta. If you have any problems, please give me feedback: https://www.facebook.com/profile.php?id=100071316150096 
-*/
+
+/**
+ * Hi I am a plugin developer.
+ * The plugin is still in beta.
+ * If you have any problems, please give me feedback:
+ * https://www.facebook.com/profile.php?id=100071316150096
+ */
 
 namespace BitcoinAPI;
 
@@ -20,17 +24,12 @@ use pocketmine\utils\Config;
 use pocketmine\event\player\PlayerJoinEvent;
 
 class Bitcoin extends PluginBase implements Listener {
-  
+
   public function onEnable(){
-    $this->getLogger()->info("Bitcoin API BETA-0.1");
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
     $this->bitcoin = new Config($this->getDataFolder() . "bitcoin.yml", Config::YAML);
   }
-  
-  public function onDisable(){
-    $this->getLogger()->info("Bitcoin API BETA-0.1");
-  }
-  
+
   public function onJoin(PlayerJoinEvent $event){
     $player = $event->getPlayer();
     if(!$this->bitcoin->exists($player->getName())){
@@ -38,7 +37,7 @@ class Bitcoin extends PluginBase implements Listener {
       $this->bitcoin->save();
     }
   }
-  
+
   public function reduceBitcoin($player, $bitcoin){
     if($player instanceof Player){
       if(is_numeric($bitcoin)){
@@ -47,7 +46,7 @@ class Bitcoin extends PluginBase implements Listener {
       }
     }
   }
-  
+
   public function addBitcoin($player, $bitcoin){
     if($player instanceof Player){
       if(is_numeric($bitcoin)){
@@ -56,17 +55,17 @@ class Bitcoin extends PluginBase implements Listener {
       }
     }
   }
-  
+
   public function myBitcoin($player){
     if($player instanceof Player){
       return ($this->bitcoin->get($player->getName()));
     }
   }
-  
+
   public function getAllBitcoin(){
     return $this->bitcoin->getAll();
   }
-  
+
   public function onCommand(CommandSender $sender, Command $cmd, String $label, array $args): bool{
     switch($cmd->getName()){
       case "mybitcoin":
@@ -77,7 +76,7 @@ class Bitcoin extends PluginBase implements Listener {
           $sender->sendMessage("Pls Use In Game");
         }
         break;
-        
+
         case "setbitcoin":
           if($sender instanceof Player){
             if($sender->hasPermission("setbitcoin.pmmdst")){
@@ -107,7 +106,7 @@ class Bitcoin extends PluginBase implements Listener {
             $sender->sendMessage("Pls Use In Game");
           }
           break;
-          
+
           case "topbitcoin":
             $bitcoinall = $this->getAllBitcoin();
             arsort($bitcoinall);
