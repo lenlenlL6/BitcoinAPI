@@ -41,16 +41,18 @@ class Bitcoin extends PluginBase implements Listener {
   
   public function reduceBitcoin($player, $bitcoin){
     if($player instanceof Player){
-      if($bitcoin instanceof Int){
+      if(is_numeric($bitcoin)){
         return $this->bitcoin->set($player->getName(), ($this->bitcoin->get($player->getName()) - $bitcoin));
+        $this->bitcoin->save();
       }
     }
   }
   
   public function addBitcoin($player, $bitcoin){
     if($player instanceof Player){
-      if($bitcoin instanceof Int){
+      if(is_numeric($bitcoin)){
         return $this->bitcoin->set($player->getName(), ($this->bitcoin->get($player->getName()) + $bitcoin));
+       $this->bitcoin->save();
       }
     }
   }
