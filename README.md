@@ -9,7 +9,6 @@ $this->bitcoin->addBitcoin($player, "200"); //You can't use float in amount
 ```
 - Reduce Bitcoin
 ```
-<?php
 $this->bitcoin = $this->getServer()->getPluginManager()->getPlugin("BitcoinAPI");
 $this->bitcoin->reduceBitcoin($player, "200"); //Like Add Bitcoin you can't use float in amount
 ```
