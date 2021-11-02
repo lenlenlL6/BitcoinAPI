@@ -34,3 +34,6 @@ $sender->sendMessage("Top " . $top . " name is " . $name . " have " . $count . "
 $top++;
 }
 ```
+# About New Version
+- I upload 0.0.2 update of this plugin, i hope you love it :D
+- New: Pay Bitcoin, BitcoinChangeEvent
