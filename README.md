@@ -37,3 +37,4 @@ $top++;
 # About New Version
 - I upload 0.0.2 update of this plugin, i hope you love it :D
 - New: Pay Bitcoin, BitcoinChangeEvent
+- Scorehud Addon: https://github.com/lenlenlL6/BitcoinAPIScore/blob/main/src/Ifera/BitcoinAPIScore/listeners/TagResolveListener.php
