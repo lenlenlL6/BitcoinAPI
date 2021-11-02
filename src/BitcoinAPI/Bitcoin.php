@@ -19,16 +19,19 @@ use pocketmine\utils\Config;
 
 use pocketmine\event\player\PlayerJoinEvent;
 
+use BitcoinAPI\BitcoinChangeEvent;
+use BitcoinAPI\BitcoinEvent;
+
 class Bitcoin extends PluginBase implements Listener {
   
   public function onEnable(){
-    $this->getLogger()->info("Bitcoin API BETA-0.1");
+    $this->getLogger()->info("Bitcoin API BETA-0.2");
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
     $this->bitcoin = new Config($this->getDataFolder() . "bitcoin.yml", Config::YAML);
   }
   
   public function onDisable(){
-    $this->getLogger()->info("Bitcoin API BETA-0.1");
+    $this->getLogger()->info("Bitcoin API BETA-0.2");
   }
   
   public function onJoin(PlayerJoinEvent $event){
@@ -36,14 +39,15 @@ class Bitcoin extends PluginBase implements Listener {
     if(!$this->bitcoin->exists($player->getName())){
       $this->bitcoin->set($player->getName(), 0);
       $this->bitcoin->save();
+      $this->getServer()->getPluginManager()->callEvent(new BitcoinChangeEvent($this, $player));
     }
   }
   
   public function reduceBitcoin($player, $bitcoin){
     if($player instanceof Player){
       if(is_numeric($bitcoin)){
-        return $this->bitcoin->set($player->getName(), ($this->bitcoin->get($player->getName()) - $bitcoin));
-        $this->bitcoin->save();
+         $this->bitcoin->set($player->getName(), ($this->bitcoin->get($player->getName()) - $bitcoin));
+         $this->getServer()->getPluginManager()->callEvent(new BitcoinChangeEvent($this, $player));
       }
     }
   }
@@ -51,14 +55,15 @@ class Bitcoin extends PluginBase implements Listener {
   public function addBitcoin($player, $bitcoin){
     if($player instanceof Player){
       if(is_numeric($bitcoin)){
-        return $this->bitcoin->set($player->getName(), ($this->bitcoin->get($player->getName()) + $bitcoin));
-       $this->bitcoin->save();
+         $this->bitcoin->set($player->getName(), ($this->bitcoin->get($player->getName()) + $bitcoin));
+         $this->getServer()->getPluginManager()->callEvent(new BitcoinChangeEvent($this, $player));
       }
     }
   }
   
   public function myBitcoin($player){
     if($player instanceof Player){
+      
       return ($this->bitcoin->get($player->getName()));
     }
   }
@@ -92,10 +97,12 @@ class Bitcoin extends PluginBase implements Listener {
                     $sender->sendMessage("§cPlayer " . $args[0] . " not online!");
                     return true;
                   }
+                  
                   $this->bitcoin->set($player->getName(), $args[1]);
                   $this->bitcoin->save();
                   $sender->sendMessage("§aSuccessfully set " . $args[0] . " bitcoin to " . $args[1]);
                   $player->sendMessage("§aYour bitcoin have been set to " . $args[1]);
+                  $this->getServer()->getPluginManager()->callEvent(new BitcoinChangeEvent($this, $player));
                 }else{
                   $sender->sendMessage("Usage: /setbitcoin {player} {amount}");
                 }
@@ -118,6 +125,44 @@ class Bitcoin extends PluginBase implements Listener {
               $top++;
             }
             break;
+            
+            case "paybitcoin":
+              if($sender instanceof Player){
+                if(isset($args[0])){
+                  if(isset($args[1])){
+                    $player2 = $this->getServer()->getPlayer($args[0]);
+                    $bitcoin = $this->myBitcoin($sender);
+                    if(!$player2 instanceof Player){
+                      $sender->sendMessage("§cPlayer " . $args[0] . " not online!");
+                      return true;
+                    }
+                    if(!is_numeric($args[1])){
+                      $sender->sendMessage("Pls Type The Amount With Number");
+                      return true;
+                    }
+                    if($args[0] === $sender->getName()){
+                      $sender->sendMessage("§cCan't pay bitcoin to yourself");
+                      return true;
+                    }
+                    if($bitcoin >= $args[1]){
+                      $this->reduceBitcoin($sender, $args[1]);
+                      $this->addBitcoin($player2, $args[1]);
+                      $sender->sendMessage("§aPay " . $args[1] . " complete to " . $args[0]);
+                      $player2->sendMessage("§aPlayer " . $sender->getName() . " pay you " . $args[1] . " bitcoin");
+                    }else{
+                      $sender->sendMessage("§cNot have enough bitcoin");
+                      return true;
+                    }
+                  }else{
+                    $sender->sendMessage("Usage: /paybitcoin {player} {amount}");
+                  }
+                }else{
+                  $sender->sendMessage("Usage: /paybitcoin {player} {amount}");
+                }
+              }else{
+                $sender->sendMessage("You Must Use Command In Game");
+              }
+              break;
     }
     return true;
   }
