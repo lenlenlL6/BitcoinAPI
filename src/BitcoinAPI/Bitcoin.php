@@ -47,6 +47,7 @@ class Bitcoin extends PluginBase implements Listener {
     if($player instanceof Player){
       if(is_numeric($bitcoin)){
          $this->bitcoin->set($player->getName(), ($this->bitcoin->get($player->getName()) - $bitcoin));
+         $this->bitcoin->save();
          $this->getServer()->getPluginManager()->callEvent(new BitcoinChangeEvent($this, $player));
       }
     }
@@ -56,6 +57,7 @@ class Bitcoin extends PluginBase implements Listener {
     if($player instanceof Player){
       if(is_numeric($bitcoin)){
          $this->bitcoin->set($player->getName(), ($this->bitcoin->get($player->getName()) + $bitcoin));
+         $this->bitcoin->save();
          $this->getServer()->getPluginManager()->callEvent(new BitcoinChangeEvent($this, $player));
       }
     }
