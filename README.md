@@ -1,6 +1,6 @@
 # BitcoinAPI
 A new plugin like EconomyAPI but with a different mode
-# API FUNCTION
+# API FUNCTION. https://postimg.cc/wtR0H7fg
 - Add Bitcoin
 ```
 $this->bitcoin = $this->getServer()->getPluginManager()->getPlugin("BitcoinAPI");
